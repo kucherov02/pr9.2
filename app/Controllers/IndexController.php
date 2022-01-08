@@ -1,4 +1,9 @@
 <?php
+
+namespace App\Controllers;
+use App\Models\User;
+
+
 class IndexController
 {
    public function __construct($db)
@@ -8,7 +13,7 @@ class IndexController
 
   public function index()
    {
-       include_once 'app/Models/UserModel.php';
+    //    include_once 'app/Models/UserModel.php';
 
        // отримання користувачів
        $users = (new User())::all($this->conn);
@@ -17,7 +22,7 @@ class IndexController
   
    public function login()
    {
-    include_once 'app/Models/UserModel.php';
+
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -43,4 +48,9 @@ class IndexController
     session_destroy();
     header('Location: ?controller=index');
     }
+
+   
+
+  
+    
 }

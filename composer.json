@@ -1,0 +1,17 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+        "phpmailer/phpmailer": "^6.5"
+    },
+
+    "autoload": {
+        "psr-4": {"Config\\": "config/",
+            "Route\\": "route/",
+            "App\\Controllers\\": "app/Controllers/",
+            "App\\Models\\": "app/Models/"
+        }
+    }
+   
+        
+    
+}

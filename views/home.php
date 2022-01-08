@@ -38,6 +38,7 @@
            <a class="btn" href="?controller=logout&action=logout">Logout</a>
            <a class="lsbtn btn" href="?controller=users">List of all Users</a>
            <a class="btn" href="?controller=roles&action=addForm">Add new role</a>
+           <a class="btn" href="?controller=users&action=contacts">Contacts</a>
        </div>
        <?php endif;?> 
 </div>

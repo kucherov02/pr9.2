@@ -1,4 +1,9 @@
 <?php
+namespace route;
+use App\Controllers\IndexController;
+use App\Controllers\RoleController;
+use App\Controllers\UsersController;
+
 class Route{
     function loadPage($db, $controllerName, $actionName = 'index'){
          include_once 'app/Controllers/IndexController.php';

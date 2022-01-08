@@ -1,7 +1,10 @@
 <?php
 session_start();
-require_once 'config/db.php';
-require_once 'route/web.php';
+require __DIR__ . '/vendor/autoload.php';
+use Config\Db;
+
+//  require_once 'config/db.php';
+use Route\Route;
 
 //define controller and action
 $controllerName = isset($_GET['controller']) ? $_GET['controller'] : 'index';

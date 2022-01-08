@@ -1,4 +1,13 @@
 <?php
+
+namespace App\Controllers;
+use App\Models\User;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
+
 class UsersController
 {
    private $conn;
@@ -9,7 +18,7 @@ class UsersController
 
    public function index()
    {
-       include_once 'app/Models/UserModel.php';
+    
 
        // отримання користувачів
        $users = (new User())::all($this->conn);
@@ -23,7 +32,7 @@ class UsersController
 
    public function add()
    {
-       include_once 'app/Models/UserModel.php';
+       
        // блок з валідацією
        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -48,7 +57,7 @@ class UsersController
    }
 
    public function delete(){
-    include_once 'app/Models/UserModel.php';  
+    
 
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -60,7 +69,7 @@ class UsersController
 }
 
 public function show(){
-include_once 'app/Models/UserModel.php';  
+  
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -72,7 +81,6 @@ include_once 'views/showUser.php';
 
 
     public function edit(){
-        include_once 'app/Models/UserModel.php';
        // блок з валідацією
        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -99,5 +107,39 @@ include_once 'views/showUser.php';
 
        header('Location: ?controller=users');
     }
+
+    public function contacts() {
+      include_once 'views/contacts.php';
+    }
  
+    
+
+   public function sendmail(){
+
+    $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    try{
+        $mail = new PHPMailer(); 
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true; 
+        $mail->SMTPSecure= 'ssl';
+        $mail->CharSet = 'UTF-8'; 
+        $mail->Host = $_ENV['SMTP_SERVER']; 
+        $mail->Port = $_ENV['SMTP_PORT'];
+        $mail->isHTML(true);
+        $mail->Username = $_ENV['SMTP_USERNAME']; 
+        $mail->Password = $_ENV['SMTP_PASSWORD']; 
+        $mail->Subject = $subject; 
+        $mail->Body = "
+        <h3>Author: $author</h3>
+        <p>$text</p>
+        "; 
+        $mail->AddAddress($_ENV['SMTP_USERNAME']);
+        $mail->send();
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+   }
 }
